@@ -15,7 +15,8 @@ def dectobin(ip):
 
 # read argument parsed to the script
 parser = argparse.ArgumentParser()
-parser.add_argument("ipaddr", help="IP address e.g. 10.10.10.1, 10.10.10.1/24, 10.10.10.0/24")
+parser.add_argument("ipaddr", help="IP address e.g. 10.10.10.1, 10.10.10.1/24, 10.10.10.0/24.")
+parser.add_argument('--newprefix', help='Break network into smaller networks. e.g. 29, 30.', type=int)
 args = parser.parse_args()
 
 try:
@@ -44,6 +45,19 @@ try:
         print('Total address\t\t\t: {}'.format('Host address'))
 except ipaddress.AddressValueError:
     print('Not a valid IP address.')
+
+# If optional argument supplied.
+if args.newprefix:
+    print('\n\n------ Sub networks --------')
+    try:
+        subnets = list(ip_network.subnets(new_prefix=args.newprefix))
+        for subnet in subnets:
+            print('Subnet: {}'.format(subnet))
+            hosts = list(subnet.hosts())
+            for host in hosts:
+                print('Host IP: {}'.format(host))
+    except:
+        print('Invalid prefix supplied.')
 
 
 
