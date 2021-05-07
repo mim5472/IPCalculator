@@ -43,8 +43,8 @@ try:
         print('Total address\t\t\t: {}'.format(ip_network.num_addresses - 2))
     else:
         print('Total address\t\t\t: {}'.format('Host address'))
-except ipaddress.AddressValueError:
-    print('Not a valid IP address.')
+except Exception as e:
+    print('Error:', e)
 
 # If optional argument supplied.
 if args.newprefix:
